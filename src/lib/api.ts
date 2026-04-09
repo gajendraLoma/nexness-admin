@@ -16,7 +16,7 @@ function getHeaders(includeAuth = true): HeadersInit {
 export async function api<T>(
   path: string,
   options: RequestInit & { skipAuth?: boolean } = {}
-): Promise<{ success: boolean; data?: T; message?: string } & Record<string, unknown>> {
+): Promise<{ success: boolean; data?: T; message?: string } & Partial<T> & Record<string, unknown>> {
   const { skipAuth, ...fetchOptions } = options;
   const res = await fetch(`${API_BASE}${path}`, {
     ...fetchOptions,
@@ -26,11 +26,15 @@ export async function api<T>(
       ...(fetchOptions.headers as Record<string, string>),
     },
   });
-  const json = await res.json().catch(() => ({}));
+  const json = (await res.json().catch(() => ({}))) as Record<string, unknown>;
   if (!res.ok) {
-    return { success: false, message: json.message || "Request failed", ...json };
+    return {
+      success: false,
+      message: typeof json.message === "string" ? json.message : "Request failed",
+      ...json,
+    } as { success: boolean; data?: T; message?: string } & Partial<T> & Record<string, unknown>;
   }
-  return { success: true, ...json };
+  return { success: true, ...json } as { success: boolean; data?: T; message?: string } & Partial<T> & Record<string, unknown>;
 }
 
 export const auth = {

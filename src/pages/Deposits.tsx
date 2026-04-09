@@ -13,8 +13,8 @@ export default function Deposits() {
   const load = () => {
     setLoading(true);
     adminApi.depositsPending().then((res) => {
-      if (res.success && (res as { deposits?: AdminDeposit[] }).deposits) {
-        setDeposits((res as { deposits: AdminDeposit[] }).deposits);
+      if (res.success && res.deposits) {
+        setDeposits(res.deposits);
       }
       setLoading(false);
     });

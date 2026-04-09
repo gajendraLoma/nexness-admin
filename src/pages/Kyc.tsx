@@ -11,8 +11,8 @@ export default function Kyc() {
   const load = () => {
     setLoading(true);
     adminApi.kycPending().then((res) => {
-      if (res.success && (res as { submissions?: AdminKyc[] }).submissions) {
-        setSubmissions((res as { submissions: AdminKyc[] }).submissions);
+      if (res.success && res.submissions) {
+        setSubmissions(res.submissions);
       }
       setLoading(false);
     });

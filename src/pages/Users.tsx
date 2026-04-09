@@ -9,7 +9,7 @@ export default function Users() {
   useEffect(() => {
     setLoading(true);
     adminApi.users().then((res) => {
-      if (res.success && (res as { users?: User[] }).users) setUsers((res as { users: User[] }).users);
+      if (res.success && res.users) setUsers(res.users);
       setLoading(false);
     });
   }, []);

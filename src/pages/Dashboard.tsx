@@ -9,7 +9,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     adminApi.stats().then((res) => {
-      if (res.success && (res as { stats?: typeof stats }).stats) setStats((res as { stats: typeof stats }).stats);
+      if (res.success && res.stats) setStats(res.stats);
       setLoading(false);
     });
   }, []);
