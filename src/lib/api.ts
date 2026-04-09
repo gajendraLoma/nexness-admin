@@ -1,4 +1,11 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+const API_BASE = (() => {
+  const configured = import.meta.env.VITE_API_URL;
+  if (configured) return configured;
+  if (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    return "https://nexness-be.vercel.app/api";
+  }
+  return "http://localhost:4000/api";
+})();
 
 function getToken(): string | null {
   return localStorage.getItem("token");
