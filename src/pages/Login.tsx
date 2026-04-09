@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Shield, Lock, Mail } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { getUserAppUrl } from "@/lib/siteUrls";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -75,7 +76,7 @@ export default function Login() {
           </button>
         </form>
         <p className="text-center text-xs text-gray-500 mt-4">
-          <a href="http://localhost:8080" className="text-amber-400 hover:underline">
+          <a href={getUserAppUrl()} className="text-amber-400 hover:underline">
             ← Back to User Platform
           </a>
         </p>

@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { LayoutDashboard, Wallet, UserCheck, Users, LogOut, ArrowLeft } from "lucide-react";
+import { getUserAppUrl } from "@/lib/siteUrls";
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -37,7 +38,7 @@ export default function Layout() {
         </nav>
         <div className="p-2 border-t border-gray-700 space-y-1">
           <a
-            href="http://localhost:8080"
+            href={getUserAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-700"
