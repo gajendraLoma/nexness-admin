@@ -1,11 +1,4 @@
-const API_BASE = (() => {
-  const configured = import.meta.env.VITE_API_URL;
-  if (configured) return configured;
-  if (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-    return "https://nexness-be.vercel.app/api";
-  }
-  return "http://localhost:4000/api";
-})();
+import { getApiBase } from "./apiBase";
 
 function getToken(): string | null {
   return localStorage.getItem("token");
@@ -25,7 +18,7 @@ export async function api<T>(
   options: RequestInit & { skipAuth?: boolean } = {}
 ): Promise<{ success: boolean; data?: T; message?: string } & Partial<T> & Record<string, unknown>> {
   const { skipAuth, ...fetchOptions } = options;
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(`${getApiBase()}${path}`, {
     ...fetchOptions,
     credentials: "include",
     headers: {
