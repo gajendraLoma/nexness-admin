@@ -19,7 +19,7 @@ export default function Layout() {
     <div className="min-h-screen bg-gray-900 flex">
       <aside className="w-56 border-r border-gray-700 bg-gray-800 flex flex-col">
         <div className="p-4 border-b border-gray-700">
-          <h2 className="font-bold text-white">QuantumX Admin</h2>
+          <h2 className="font-bold text-white">Nexness Admin</h2>
           <p className="text-xs text-gray-400">{user?.email}</p>
         </div>
         <nav className="p-2 flex-1">
