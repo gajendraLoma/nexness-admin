@@ -14,6 +14,7 @@ export default function Layout() {
     { to: "/kyc", label: "KYC", icon: UserCheck },
     { to: "/users", label: "Users", icon: Users },
   ];
+  console.log("Current user:", );
 
   return (
     <div className="min-h-screen bg-gray-900 flex">
