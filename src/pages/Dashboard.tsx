@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Wallet, UserCheck, Users } from "lucide-react";
+import { Wallet, ArrowUpFromLine, UserCheck, Users } from "lucide-react";
 import { adminApi } from "@/lib/api";
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({ pending_deposits: 0, pending_kyc: 0, total_users: 0 });
+  const [stats, setStats] = useState({
+    pending_deposits: 0,
+    pending_withdrawals: 0,
+    pending_kyc: 0,
+    total_users: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,6 +23,13 @@ export default function Dashboard() {
 
   const cards = [
     { label: "Pending Deposits", value: stats.pending_deposits, icon: Wallet, to: "/deposits", color: "text-amber-400" },
+    {
+      label: "Pending Withdrawals",
+      value: stats.pending_withdrawals,
+      icon: ArrowUpFromLine,
+      to: "/withdrawals",
+      color: "text-amber-400",
+    },
     { label: "Pending KYC", value: stats.pending_kyc, icon: UserCheck, to: "/kyc", color: "text-amber-400" },
     { label: "Total Users", value: stats.total_users, icon: Users, color: "text-white" },
   ];
@@ -25,7 +37,7 @@ export default function Dashboard() {
   return (
     <>
       <h1 className="text-2xl font-bold text-white mb-6">Dashboard</h1>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map(({ label, value, icon: Icon, to, color }) => (
           <div key={label} className="rounded-xl border border-gray-700 bg-gray-800 p-4 flex items-center justify-between relative">
             <div>

@@ -52,7 +52,14 @@ export const userApi = {
 
 export const adminApi = {
   stats: () =>
-    api<{ stats: { pending_deposits: number; pending_kyc: number; total_users: number } }>("/admin/stats"),
+    api<{
+      stats: {
+        pending_deposits: number;
+        pending_withdrawals: number;
+        pending_kyc: number;
+        total_users: number;
+      };
+    }>("/admin/stats"),
   depositsPending: () => api<{ deposits: AdminDeposit[] }>("/admin/deposits/pending"),
   depositVerify: (id: string, admin_notes?: string) =>
     api(`/admin/deposits/${id}/verify`, { method: "PATCH", body: JSON.stringify({ admin_notes }) }),
@@ -60,6 +67,11 @@ export const adminApi = {
     api(`/admin/deposits/${id}/approve`, { method: "PATCH", body: JSON.stringify({ amount_approved }) }),
   depositReject: (id: string, admin_notes?: string) =>
     api(`/admin/deposits/${id}/reject`, { method: "PATCH", body: JSON.stringify({ admin_notes }) }),
+  withdrawalsPending: () => api<{ withdrawals: AdminWithdrawal[] }>("/admin/withdrawals/pending"),
+  withdrawalApprove: (id: string, admin_notes?: string) =>
+    api(`/admin/withdrawals/${id}/approve`, { method: "PATCH", body: JSON.stringify({ admin_notes }) }),
+  withdrawalReject: (id: string, admin_notes?: string) =>
+    api(`/admin/withdrawals/${id}/reject`, { method: "PATCH", body: JSON.stringify({ admin_notes }) }),
   kycPending: () => api<{ submissions: AdminKyc[] }>("/admin/kyc/pending"),
   kycApprove: (id: string) => api(`/admin/kyc/${id}/approve`, { method: "PATCH" }),
   kycReject: (id: string, admin_notes?: string) =>
@@ -74,6 +86,19 @@ export interface User {
   role: string;
   balance?: number;
   kyc_status?: string;
+}
+
+export interface AdminWithdrawal {
+  id: string;
+  user_id: string;
+  email: string;
+  full_name?: string;
+  amount: number;
+  currency: string;
+  address?: string | null;
+  status: string;
+  user_balance?: number;
+  created_at: string;
 }
 
 export interface AdminDeposit {

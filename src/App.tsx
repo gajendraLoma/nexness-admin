@@ -4,6 +4,7 @@ import Login from "@/pages/Login";
 import Layout from "@/components/Layout";
 import Dashboard from "@/pages/Dashboard";
 import Deposits from "@/pages/Deposits";
+import Withdrawals from "@/pages/Withdrawals";
 import Kyc from "@/pages/Kyc";
 import Users from "@/pages/Users";
 
@@ -38,6 +39,7 @@ export default function App() {
           >
             <Route index element={<Dashboard />} />
             <Route path="deposits" element={<Deposits />} />
+            <Route path="withdrawals" element={<Withdrawals />} />
             <Route path="kyc" element={<Kyc />} />
             <Route path="users" element={<Users />} />
           </Route>

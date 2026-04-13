@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LayoutDashboard, Wallet, UserCheck, Users, LogOut, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Wallet, ArrowUpFromLine, UserCheck, Users, LogOut, ArrowLeft } from "lucide-react";
 import { getUserAppUrl } from "@/lib/siteUrls";
 
 export default function Layout() {
@@ -11,10 +11,10 @@ export default function Layout() {
   const nav = [
     { to: "/", label: "Dashboard", icon: LayoutDashboard },
     { to: "/deposits", label: "Deposits", icon: Wallet },
+    { to: "/withdrawals", label: "Withdrawals", icon: ArrowUpFromLine },
     { to: "/kyc", label: "KYC", icon: UserCheck },
     { to: "/users", label: "Users", icon: Users },
   ];
-  console.log("Current user:", );
 
   return (
     <div className="min-h-screen bg-gray-900 flex">
