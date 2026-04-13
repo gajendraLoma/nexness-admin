@@ -38,7 +38,7 @@ export default function Login() {
             <p className="text-sm text-gray-400">Exness Trading</p>
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
             <label className="text-sm text-gray-400 mb-2 block">Email</label>
             <div className="relative">
