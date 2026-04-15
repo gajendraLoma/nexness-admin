@@ -51,6 +51,12 @@ export const userApi = {
 };
 
 export const adminApi = {
+  contractOrders: () => api<{ orders: AdminContractOrder[] }>("/admin/contracts/orders"),
+  contractSetOutcome: (id: string, outcome: "normal" | "profit" | "loss") =>
+    api(`/admin/contracts/orders/${encodeURIComponent(id)}/outcome`, {
+      method: "PATCH",
+      body: JSON.stringify({ outcome }),
+    }),
   stats: () =>
     api<{
       stats: {
@@ -114,6 +120,27 @@ export interface AdminDeposit {
   screenshot_url?: string;
   status: string;
   created_at: string;
+}
+
+export interface AdminContractOrder {
+  id: string;
+  user_id?: string;
+  email?: string;
+  full_name?: string;
+  symbol_key: string;
+  symbol_display: string;
+  direction: string;
+  amount: number;
+  profit_percent: number;
+  expiration_seconds: number;
+  entry_price: number;
+  closing_price?: number;
+  admin_outcome: string;
+  status: string;
+  expires_at: string;
+  settled_at?: string;
+  pnl_amount?: number;
+  created_at?: string;
 }
 
 export interface AdminKyc {

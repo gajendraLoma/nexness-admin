@@ -7,6 +7,7 @@ import Deposits from "@/pages/Deposits";
 import Withdrawals from "@/pages/Withdrawals";
 import Kyc from "@/pages/Kyc";
 import Users from "@/pages/Users";
+import ContractOrders from "@/pages/ContractOrders";
 
 function ProtectedAdmin({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="withdrawals" element={<Withdrawals />} />
             <Route path="kyc" element={<Kyc />} />
             <Route path="users" element={<Users />} />
+            <Route path="contracts" element={<ContractOrders />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

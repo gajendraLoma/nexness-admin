@@ -1,12 +1,34 @@
+import { useEffect, useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LayoutDashboard, Wallet, ArrowUpFromLine, UserCheck, Users, LogOut, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Wallet, ArrowUpFromLine, UserCheck, Users, LogOut, ArrowLeft, LineChart } from "lucide-react";
 import { getUserAppUrl } from "@/lib/siteUrls";
+import { adminApi, type AdminContractOrder } from "@/lib/api";
+import { notifyIfNewContractOrders } from "@/lib/contractOrderNotify";
+import InfoModal from "@/components/InfoModal";
 
 export default function Layout() {
-  const { user, logout } = useAuth();
+  const { user, logout, token } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [newOrdersModalOpen, setNewOrdersModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!token || !user) return;
+    let cancelled = false;
+    const tick = async () => {
+      const res = await adminApi.contractOrders();
+      if (cancelled || !res.success || !Array.isArray(res.orders)) return;
+      const ids = (res.orders as AdminContractOrder[]).map((o) => o.id);
+      notifyIfNewContractOrders(ids, () => setNewOrdersModalOpen(true));
+    };
+    tick();
+    const interval = setInterval(tick, 8000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [token, user]);
 
   const nav = [
     { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -14,10 +36,18 @@ export default function Layout() {
     { to: "/withdrawals", label: "Withdrawals", icon: ArrowUpFromLine },
     { to: "/kyc", label: "KYC", icon: UserCheck },
     { to: "/users", label: "Users", icon: Users },
+    { to: "/contracts", label: "Contract orders", icon: LineChart },
   ];
 
   return (
     <div className="min-h-screen bg-gray-900 flex">
+      <InfoModal
+        open={newOrdersModalOpen}
+        title="information"
+        message="There are new contract orders."
+        actionLabel="OK"
+        onClose={() => setNewOrdersModalOpen(false)}
+      />
       <aside className="w-56 border-r border-gray-700 bg-gray-800 flex flex-col">
         <div className="p-4 border-b border-gray-700">
           <h2 className="font-bold text-white">Exness Admin</h2>

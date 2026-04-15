@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { userApi, type User } from "@/lib/api";
+import { clearAdminSessionCaches } from "@/lib/contractOrderNotify";
 
 interface AuthContextType {
   user: User | null;
@@ -67,6 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem("token");
+    clearAdminSessionCaches();
     setToken(null);
     setUser(null);
   };
